@@ -60,9 +60,6 @@ const weatherIcon = document.querySelector(".weather-icon");
 const searchBtn = document.querySelector(".search button");
 const searchBox = document.querySelector(".search input");
 
-const api =
-  "https://api.openweathermhttp://api.weatherapi.com/v1/forecast.json";
-const key = "4090e100f6f248feb76100532232312";
 
 searchBtn.addEventListener("click", () => {
   getData(searchBox.value);
@@ -77,7 +74,7 @@ searchBox.addEventListener("input", () => {
 async function getData(city) {
   // let res = await fetch(api+city+'?key='+key+'&q='+city+'&aqi=no')
   let res = await fetch(
-    `http://api.weatherapi.com/v1/forecast.json?key=4090e100f6f248feb76100532232312&q=${city}&aqi=yes&days=6`
+    `https://api.weatherapi.com/v1/forecast.json?key=4090e100f6f248feb76100532232312&q=${city}&aqi=yes&days=6`
   );
 
   let data = await res.json();
