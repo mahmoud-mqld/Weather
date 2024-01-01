@@ -6,6 +6,8 @@ const countryEl = document.getElementById("country");
 const zoneTime = document.getElementById("zone-time");
 const zoneDate = document.getElementById("zone-date");
 
+let forecastDays = document.querySelector(".days");
+
 const days = [
   "Sunday",
   "Monday",
@@ -62,19 +64,29 @@ const searchBox = document.querySelector(".search input");
 
 
 searchBtn.addEventListener("click", () => {
-  getData(searchBox.value);
+  getData(searchBox.value,forecastDays.value);
   reset();
 });
 
 searchBox.addEventListener("input", () => {
-  getData(searchBox.value);
+  getData(searchBox.value,forecastDays.value);
   reset();
 });
+
+
+forecastDays.addEventListener("input", () => {
+  getData(searchBox.value,forecastDays.value);
+  reset();
+});
+
+
 
 async function getData(city) {
   // let res = await fetch(api+city+'?key='+key+'&q='+city+'&aqi=no')
   let res = await fetch(
-    `https://api.weatherapi.com/v1/forecast.json?key=4090e100f6f248feb76100532232312&q=${city}&aqi=yes&days=6`
+    `https://api.weatherapi.com/v1/forecast.json?key=4090e100f6f248feb76100532232312
+    &q=${city}
+    &aqi=yes&days=${+forecastDays.value+1}`
   );
 
   let data = await res.json();
@@ -96,7 +108,9 @@ async function getData(city) {
   document.querySelector(".humidity").innerHTML = data.current.humidity + "%";
   document.querySelector(".wind").innerHTML = data.current.wind_kph + "km/h";
   weatherIcon.src = "https:" + data.current.condition.icon;
-
+  document.querySelector(".rain-chance").innerHTML= data.forecast.forecastday[0].day.daily_chance_of_rain + "%"
+  document.querySelector(".sunrise").innerHTML= data.forecast.forecastday[0].astro.sunrise 
+  document.querySelector(".sunset").innerHTML= data.forecast.forecastday[0].astro.sunset 
   forecast(data);
 
   console.log(data.location.localtime);
